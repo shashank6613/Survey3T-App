@@ -3,7 +3,7 @@
 FROM nginx:alpine
 
 # Copy static content into the Nginx image
-COPY ./frontend /usr/share/nginx/html
+COPY frontend/ /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
