@@ -42,10 +42,12 @@ pipeline {
         }
 
         stage('Push image') {
+            steps {
                              withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
                              sh "docker push shashank9928/three-tier-frontend:latest"
                              sh "docker push shashank9928/three-tier-backend:latest"
                  }
+            }
         }
 
         stage('Deploy Frontend') {
