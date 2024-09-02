@@ -41,15 +41,11 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
-            steps {
-                script{
-                   docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
-                        docker.image("${env.FRONTEND_IMAGE}:latest").push('latest')
-                        docker.image("${env.BACKEND_IMAGE}:latest").push('latest')
-                    }
-                }
-            }
+        stage('Push image') {
+                             withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+                             sh "docker push shashank9928/three-tier-frontend:latest"
+                             sh "docker push shashank9928/three-tier-backend:latest"
+                 }
         }
 
         stage('Deploy Frontend') {
