@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     // Use withRegistry for Docker Hub login
-                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dock-creds') {
                         // Push frontend image
                         docker.image("${env.FRONTEND_IMAGE}").push('latest')
                         // Push backend image
