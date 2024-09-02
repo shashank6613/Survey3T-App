@@ -45,8 +45,8 @@ pipeline {
             steps {
                 script{
                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
-                        docker.image("${env.FRONTEND_IMAGE}").push('latest')
-                        docker.image("${env.BACKEND_IMAGE}").push('latest')
+                        docker.image("${env.FRONTEND_IMAGE}:latest").push('latest')
+                        docker.image("${env.BACKEND_IMAGE}:latest").push('latest')
                     }
                 }
             }
