@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_REGISTRY = 'shashank9928/tier-survey'
-        FRONTEND_IMAGE = "${DOCKER_REGISTRY}/frontend:latest"
-        BACKEND_IMAGE = "${DOCKER_REGISTRY}/backend:latest"
+        FRONTEND_IMAGE = 'Three-Tier-frontend'
+        BACKEND_IMAGE = 'Three-Tier-backend'
         AWS_REGION = 'us-east-1'
         DB_HOST = 'db_host'
         DB_USER = 'db-user'
