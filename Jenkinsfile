@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_REGISTRY = 'shashank9928/tier-survey'
-        FRONTEND_IMAGE = 'three-tier-frontend'
-        BACKEND_IMAGE = 'three-tier-backend'
+        FRONTEND_IMAGE = "${DOCKER_REGISTRY}/frontend:latest"
+        BACKEND_IMAGE = "${DOCKER_REGISTRY}/backend:latest" 
         AWS_REGION = 'us-east-1'
         DB_HOST = 'db_host'
         DB_USER = 'db-user'
@@ -28,7 +28,7 @@ pipeline {
         stage('Build Frontend Docker Image') {
             steps {
                 script {
-                     docker.build("shashank9928/tier-survey:latest", "frontend/")
+                     docker.build("${env.FRONTEND_IMAGE}", "frontend/")
                 }
             }
         }
@@ -36,17 +36,24 @@ pipeline {
         stage('Build Backend Docker Image') {
             steps {
                 script {
-                     docker.build("shashank9928/tier-survey:latest", "backend/")
+                     docker.build("${env.BACKEND_IMAGE}", "backend/")
                 }
             }
         }
 
-        stage('Push image') {
+        stage('Push Docker Images') {
             steps {
-                             withDockerRegistry([ credentialsId:"${DOCKER_CREDENTIALS_ID}", url: 'https://index.docker.io/v1/' ]) {
-                             sh "docker push shashank9928/three-tier-frontend:latest"
-                             sh "docker push shashank9928/three-tier-backend:latest"
-                 }
+                script {
+                    withDockerRegistry([ 
+                        credentialsId: "${DOCKER_CREDENTIALS_ID}", 
+                        url: "${DOCKER_REGISTRY}" 
+                    ]) {
+                        // Push the frontend image
+                        sh "docker push ${env.FRONTEND_IMAGE}:latest"
+                        // Push the backend image
+                        sh "docker push ${env.BACKEND_IMAGE}:latest"
+                    }
+                }
             }
         }
 
