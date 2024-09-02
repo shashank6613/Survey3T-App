@@ -6,10 +6,10 @@ pipeline {
         FRONTEND_IMAGE = "${DOCKER_REGISTRY}/frontend:latest"
         BACKEND_IMAGE = "${DOCKER_REGISTRY}/backend:latest"
         AWS_REGION = 'us-east-1'
-        DB_HOST = 'your-rds-endpoint'
-        DB_USER = 'your-db-user'
-        DB_PASSWORD = 'your-db-password'
-        DB_NAME = 'your-db-name'
+        DB_HOST = 'cicdproj.cic6t2lbg4qh.us-east-1.rds.amazonaws.com'
+        DB_USER = 'admin'
+        DB_PASSWORD = 'admin1234'
+        DB_NAME = 'survey'
         GIT_CREDENTIALS_ID = 'git-creds'
         DOCKER_CREDENTIALS_ID = 'dock-creds'
     }
