@@ -46,7 +46,7 @@ pipeline {
                 script {
                     withDockerRegistry([ 
                         credentialsId: "${DOCKER_CREDENTIALS_ID}", 
-                        url: "${DOCKER_REGISTRY}" 
+                        url: 'https://index.docker.io/v1/' 
                     ]) {
                         // Push the frontend image
                         sh "docker push ${env.FRONTEND_IMAGE}:latest"
