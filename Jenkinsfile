@@ -28,7 +28,7 @@ pipeline {
         stage('Build Frontend Docker Image') {
             steps {
                 script {
-                    docker.build("${env.FRONTEND_IMAGE}", "frontend/")
+                     docker.build("shashank9928/three-tier-frontend:latest", "frontend/")
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
         stage('Build Backend Docker Image') {
             steps {
                 script {
-                    docker.build("${env.BACKEND_IMAGE}", "backend/")
+                     docker.build("shashank9928/three-tier-frontend:latest", "frontend/")
                 }
             }
         }
