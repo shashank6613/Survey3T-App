@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_REGISTRY = 'shashank9928/tier-survey'
-        FRONTEND_IMAGE = "${DOCKER_REGISTRY}/frontend"
-        BACKEND_IMAGE = "${DOCKER_REGISTRY}/backend"
+        FRONTEND_IMAGE = "${DOCKER_REGISTRY}/frontend:latest"
+        BACKEND_IMAGE = "${DOCKER_REGISTRY}/backend:latest"
         AWS_REGION = 'us-east-1'
         DB_HOST = 'db_host'
         DB_USER = 'db-user'
@@ -43,7 +43,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                withDockerRegistry([credentialsId: "${DOCKER_CREDENTIAL_ID}", url: 'https://index.docker.io/v1/']) {
+                withDockerRegistry([credentialsId: "${DOCKER_CREDENTIALS_ID}", url: 'https://index.docker.io/v1/']) {
                     script {
                         docker.image("${env.FRONTEND_IMAGE}").push('latest')
                         docker.image("${env.BACKEND_IMAGE}").push('latest')
