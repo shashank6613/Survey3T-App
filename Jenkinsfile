@@ -12,7 +12,6 @@ pipeline {
         DB_NAME = credentials('db-name')
         GIT_CREDENTIALS_ID = 'git-creds'
         DOCKER_CREDENTIALS_ID = 'dock-creds'
-        LOG_FILE = 'build_and_deploy.log'
     }
 
     stages {
@@ -20,7 +19,7 @@ pipeline {
             steps {
                 script {
                     echo "Checking out code from Git..."
-                    sh "git clone https://github.com/shashank6613/Tire-survey3T.git >> ${LOG_FILE} 2>&1"
+                    sh "git clone https://github.com/shashank6613/Tire-survey3T.git"
                 }
             }
         }
@@ -29,7 +28,7 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker images..."
-                    sh "docker-compose build >> ${LOG_FILE} 2>&1"
+                    sh "docker-compose build"
                 }
             }
         }
@@ -39,7 +38,7 @@ pipeline {
                 script {
                     echo "Pushing Docker images..."
                     docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
-                        sh "docker-compose push >> ${LOG_FILE} 2>&1"
+                        sh "docker-compose push"
                     }
                 }
             }
@@ -55,7 +54,7 @@ pipeline {
                         "DB_PASSWORD=${DB_PASSWORD}",
                         "DB_NAME=${DB_NAME}"
                     ]) {
-                        sh "docker-compose up -d >> ${LOG_FILE} 2>&1"
+                        sh "docker-compose up -d"
                     }
                 }
             }
