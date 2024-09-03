@@ -1,4 +1,7 @@
 <?php
+header("Access-Control-Allow-Origin: *"); // Adjust as needed
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
 
 $dbHost = getenv('DB_HOST');
 $dbName = getenv('DB_NAME');
