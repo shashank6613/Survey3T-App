@@ -1,6 +1,6 @@
 <?php
 // Include the configuration file
-$config = include('/var/www/html/db_config.php');
+//$config = include('/var/www/html/db_config.php');
 
 // Retrieve credentials from configuration
 $dbHost = getenv('DB_HOST');
@@ -8,6 +8,19 @@ $dbName = getenv('DB_NAME');
 $dbUser = getenv('DB_USER');
 $dbPassword = getenv('DB_PASSWORD')
 
+// Check if the variables are set
+ if (!$dbHost || !$dbName || !$dbUser || !$dbPassword) {
+     die("Database environment variables are not set.");
+ }
+
+// Create connection
+$conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
+
+// Check connection
+ if ($conn->connect_error) {
+         die("Connection failed: " . $conn->connect_error);
+ }
+	
 // Create a new PDO instance for database connection
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
