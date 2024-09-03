@@ -7,60 +7,69 @@
 <style>
     body {
 	  font-family: Arial, sans-serif;
-          background: url('https://wallpapercave.com/wp/n2ADkvF.jpg') no-repeat center center fixed;
+	  background: url('https://wallpapercave.com/wp/n2ADkvF.jpg') no-repeat center center fixed;
 	  background-size: cover;
 	  margin: 0;
 	  padding: 0;
 	  color: #333;
-     }
-     .container {
-	 display: flex;
-	 justify-content: center;
-	 align-items: center;
-	 height: 100vh;
-	 background: transparent; /* Fully transparent background */
-	 border-radius: 10px;
-	 padding: 20px;
-	 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-     }
+    }
+    .container {
+        display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background: transparent;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
      h1 {
-	     text-align: center;
-	     color: #444;
-     }
+        text-align: center;
+	color: #444;
+    }
      form {
-	     max-width: 500px;
-	     margin: 0 auto;
-     }
+	max-width: 500px;
+	margin: 0 auto;
+    }
      label {
-	     display: block;
-	     margin: 10px 0 5px;
-	     font-weight: bold;
-     }
+	display: block;
+	margin: 10px 0 5px;
+	font-weight: bold;
+    }
      input[type="text"],
      input[type="number"],
      input[type="tel"] {
-	 width: calc(100% - 22px);
-	 padding: 10px;
-	 margin: 5px 0 10px;
-	 border: 1px solid #ddd;
-	 border-radius: 5px;
-	 box-sizing: border-box;
+	width: calc(100% - 22px);
+	padding: 10px;
+	margin: 5px 0 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-sizing: border-box;
      }
-     input[type="submit"] {
-         background-color: #4CAF50;
-	 color: white;
-	 border: none;
-	 padding: 15px 20px;
-	 text-align: center;
-	 text-decoration: none;
-	 display: inline-block;
-	 font-size: 16px;																			 border-radius: 5px;
-	 cursor: pointer;
-	 width: 100%;
-	 box-sizing: border-box;
+      input[type="submit"] {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	padding: 15px 20px;
+        text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 100%;
+	box-sizing: border-box;
      }
-     input[type="submit"]:hover {
-	 background-color: #45a049;
+      input[type="submit"]:hover {
+	background-color: #45a049;
+     }
+      .message {
+	margin-top: 20px;
+        font-size: 1.2em;
+	color: green;
+     }
+      .message.error {
+	color: red;
      }
 </style>
 </head>
@@ -68,7 +77,7 @@
 <div class="container">
 <div>
 <h1>User Information Form</h1>
-<form action="http://backend:80/submit.php" method="POST">
+<form id="userForm">
 <label for="name">Name:</label>
 <input type="text" id="name" name="name" required>
 <label for="age">Age:</label>
@@ -77,34 +86,34 @@
 <input type="tel" id="mobile" name="mobile" required>
 <label for="nationality">Nationality:</label>
 <input type="text" id="nationality" name="nationality" required>
-<label for="language">Language:</label>
-<input type="text" id="language" name="language" required>
+<label for="language">Language:</label>																	<input type="text" id="language" name="language" required>
 <label for="pin">PIN:</label>
 <input type="text" id="pin" name="pin" required>
 <input type="submit" value="Submit">
+<div id="message" class="message"></div>
 </form>
 </div>
 </div>
 <script>
-	document.getElementById('userForm').addEventListener('submit', function(event) {
-	    event.preventDefault(); // Prevent the form from submitting the traditional way
-				            
-	    const formData = new FormData(this);
-				            
-	    fetch('http://54.164.72.211:8081/submit.php', {
-	        method: 'POST',
-		body: formData
-	    })
-	    .then(response => response.text())
-	    .then(result => {
-		document.getElementById('message').innerText = 'Data added successfully!';
-		// Optionally, you can reset the form here
-		this.reset();
-	    })
-	    .catch(error => {
-		document.getElementById('message').innerText = 'An error occurred: ' + error.message;
-	    });
-	});
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+	event.preventDefault(); // Prevent the default form submission
+        const formData = new FormData(this); // Create FormData object from form
+
+	fetch('http://35.167.99.242:8081/submit.php', { // URL to send the form data
+	method: 'POST',
+        body: formData // Send form data in the body of the request
+   })
+   .then(response => response.text()) // Convert response to text
+   .then(result => {
+        document.getElementById('message').innerText = 'Data added successfully!';
+        document.getElementById('message').classList.remove('error');
+	this.reset(); // Optionally reset the form
+   })
+   .catch(error => {
+	document.getElementById('message').innerText = 'An error occurred: ' + error.message;
+	document.getElementById('message').classList.add('error');
+   });
+});
 </script>
 </body>
 </html>
