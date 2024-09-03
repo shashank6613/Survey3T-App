@@ -23,7 +23,7 @@ pipeline {
             }
         }
 
-    stages {
+       stage {
         stage('Checkout') {
             steps {
                 script {
