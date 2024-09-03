@@ -37,7 +37,9 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker images..."
-                    sh 'docker-compose build'
+                    dir('Tire-survey3T') {
+                        sh 'docker-compose build'
+                    }
                 }
             }
         }
@@ -47,7 +49,9 @@ pipeline {
                 script {
                     echo "Pushing Docker images..."
                     docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
-                        sh 'docker-compose push'
+                        dir('Tire-survey3T') {
+                            sh 'docker-compose push'
+                        }
                     }
                 }
             }
@@ -63,7 +67,9 @@ pipeline {
                         "DB_PASSWORD=${DB_PASSWORD}",
                         "DB_NAME=${DB_NAME}"
                     ]) {
-                        sh 'docker-compose up -d'
+                        dir('Tire-survey3T') {
+                            sh 'docker-compose up -d'
+                        }
                     }
                 }
             }
@@ -74,11 +80,12 @@ pipeline {
         always {
             echo 'Cleaning up Docker containers and images...'
             script {
-                // Stop and remove containers created by Docker Compose
-                sh '''
-                docker-compose down || true
-                docker system prune -af || true
-                '''
+                dir('Tire-survey3T') {
+                    sh '''
+                    docker-compose down || true
+                    docker system prune -af || true
+                    '''
+                }
             }
         }
 
