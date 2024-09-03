@@ -13,6 +13,15 @@ pipeline {
         GIT_CREDENTIALS_ID = 'git-creds'
         DOCKER_CREDENTIALS_ID = 'dock-creds'
     }
+    stages {
+        stage('Clean Workspace') {
+            steps {
+                script {
+                    // Clean the workspace before cloning the repository
+                    deleteDir()
+                }
+            }
+        }
 
     stages {
         stage('Checkout') {
