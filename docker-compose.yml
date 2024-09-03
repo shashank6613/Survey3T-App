@@ -22,3 +22,6 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
 
+networks:
+  app-network:
+    driver: bridge

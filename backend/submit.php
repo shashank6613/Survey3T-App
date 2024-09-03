@@ -3,10 +3,10 @@
 $config = include('/var/www/html/db_config.php');
 
 // Retrieve credentials from configuration
-$host = $config['host'];
-$dbname = $config['dbname'];
-$user = $config['user'];
-$password = $config['password'];
+$dbHost = getenv('DB_HOST');
+$dbName = getenv('DB_NAME');
+$dbUser = getenv('DB_USER');
+$dbPassword = getenv('DB_PASSWORD')
 
 // Create a new PDO instance for database connection
 try {
