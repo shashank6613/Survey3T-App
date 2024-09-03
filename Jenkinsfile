@@ -1,11 +1,11 @@
 pipeline {
-    agent any
+    agent { label 'slave' }
 
     environment {
         DOCKER_REGISTRY = 'shashank9928/tier-survey'
         FRONTEND_IMAGE = 'shashank9928/frontend:latest'
         BACKEND_IMAGE = 'shashank9928/backend:latest'
-        AWS_REGION = 'us-east-1'
+        AWS_REGION = 'us-west-2'
         DB_HOST = credentials('db-host')
         DB_USER = credentials('db-user')
         DB_PASSWORD = credentials('db-pass')
