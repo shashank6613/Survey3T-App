@@ -6,37 +6,30 @@ pipeline {
         FRONTEND_IMAGE = 'shashank9928/frontend:latest'
         BACKEND_IMAGE = 'shashank9928/backend:latest'
         AWS_REGION = 'us-east-1'
-        DB_HOST = '<Your-RDS-Endpoint>'
-        DB_USER = '<Your-RDS-User>'
-        DB_PASSWORD = '<Your-RDS-Password>'
-        DB_NAME = '<Youre-RDS-DB(premade)>'
+        DB_HOST = credentials('db-host')
+        DB_USER = credentials('db-user')
+        DB_PASSWORD = credentials('db-pass')
+        DB_NAME = credentials('db-name')
         GIT_CREDENTIALS_ID = 'git-creds'
         DOCKER_CREDENTIALS_ID = 'dock-creds'
+        LOG_FILE = 'build_and_deploy.log'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git(
-                    url: 'https://github.com/shashank6613/Tire-survey3T.git',
-                    branch: 'main',
-                    credentialsId: "${GIT_CREDENTIALS_ID}"
-                )
-            }
-        }
-
-        stage('Build Frontend Docker Image') {
-            steps {
                 script {
-                    docker.build("${env.FRONTEND_IMAGE}", "frontend/")
+                    echo "Checking out code from Git..."
+                    sh "git clone https://github.com/shashank6613/Tire-survey3T.git >> ${LOG_FILE} 2>&1"
                 }
             }
         }
 
-        stage('Build Backend Docker Image') {
+        stage('Build Docker Images') {
             steps {
                 script {
-                    docker.build("${env.BACKEND_IMAGE}", "backend/")
+                    echo "Building Docker images..."
+                    sh "docker-compose build >> ${LOG_FILE} 2>&1"
                 }
             }
         }
@@ -44,43 +37,50 @@ pipeline {
         stage('Push Docker Images') {
             steps {
                 script {
-                    // Use withRegistry for Docker Hub login
-                    docker.withRegistry('https://index.docker.io/v1/', 'dock-creds') {
-                        // Push frontend image
-                        docker.image("${env.FRONTEND_IMAGE}").push('latest')
-                        // Push backend image
-                        docker.image("${env.BACKEND_IMAGE}").push('latest')
+                    echo "Pushing Docker images..."
+                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
+                        sh "docker-compose push >> ${LOG_FILE} 2>&1"
                     }
                 }
             }
         }
 
-        stage('Deploy Frontend') {
+        stage('Deploy Services') {
             steps {
                 script {
-                    // Use Docker Compose for deployment if needed
-                    sh 'docker run -d -p 80:80 --name frontend ${FRONTEND_IMAGE}'
-                }
-            }
-        }
-
-        stage('Deploy Backend') {
-            steps {
-                script {
-                    // Use Docker Compose for deployment if needed
-                    sh 'docker run -d -p 8080:80 --name backend -e DB_HOST=${DB_HOST} -e DB_USER=${DB_USER} -e DB_PASSWORD=${DB_PASSWORD} -e DB_NAME=${DB_NAME} ${BACKEND_IMAGE}'
+                    echo "Deploying services..."
+                    withEnv([
+                        "DB_HOST=${DB_HOST}",
+                        "DB_USER=${DB_USER}",
+                        "DB_PASSWORD=${DB_PASSWORD}",
+                        "DB_NAME=${DB_NAME}"
+                    ]) {
+                        sh "docker-compose up -d >> ${LOG_FILE} 2>&1"
+                    }
                 }
             }
         }
     }
 
     post {
-        success {
-            echo 'Deployment completed successfully!'
+        always {
+            echo 'Archiving log file...'
+            archiveArtifacts artifacts: "${LOG_FILE}", allowEmptyArchive: true
         }
 
         failure {
-            echo 'Deployment failed.'
+            echo 'Pipeline failed. Cleaning up Docker containers and images...'
+            script {
+                // Stop and remove containers created by Docker Compose
+                sh '''
+                docker-compose down || true
+                docker system prune -af || true
+                '''
+            }
+        }
+
+        success {
+            echo 'Deployment completed successfully!'
         }
     }
 }
