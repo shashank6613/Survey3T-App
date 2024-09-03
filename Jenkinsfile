@@ -77,20 +77,16 @@ pipeline {
     }
 
     post {
-        always {
-            echo 'Cleaning up Docker containers and images...'
-            script {
-                dir('Tire-survey3T') {
-                    sh '''
-                    docker-compose down || true
-                    docker system prune -af || true
-                    '''
-                }
-            }
-        }
 
         failure {
             echo 'Pipeline failed.'
+            echo 'Cleaning up Docker containers and images...'
+            script {
+                // Stop and remove containers created by Docker Compose
+                sh '''
+                docker-compose down || true
+                docker system prune -af || true
+                '''
         }
 
         success {
