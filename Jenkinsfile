@@ -13,6 +13,7 @@ pipeline {
         GIT_CREDENTIALS_ID = 'git-creds'
         DOCKER_CREDENTIALS_ID = 'dock-creds'
     }
+
     stages {
         stage('Clean Workspace') {
             steps {
@@ -23,12 +24,11 @@ pipeline {
             }
         }
 
-       stage {
         stage('Checkout') {
             steps {
                 script {
                     echo "Checking out code from Git..."
-                    sh "git clone https://github.com/shashank6613/Tire-survey3T.git"
+                    sh 'git clone https://github.com/shashank6613/Tire-survey3T.git'
                 }
             }
         }
@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker images..."
-                    sh "docker-compose build"
+                    sh 'docker-compose build'
                 }
             }
         }
@@ -47,7 +47,7 @@ pipeline {
                 script {
                     echo "Pushing Docker images..."
                     docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
-                        sh "docker-compose push"
+                        sh 'docker-compose push'
                     }
                 }
             }
@@ -63,7 +63,7 @@ pipeline {
                         "DB_PASSWORD=${DB_PASSWORD}",
                         "DB_NAME=${DB_NAME}"
                     ]) {
-                        sh "docker-compose up -d"
+                        sh 'docker-compose up -d'
                     }
                 }
             }
@@ -72,12 +72,7 @@ pipeline {
 
     post {
         always {
-            echo 'Archiving log file...'
-            archiveArtifacts artifacts: "${LOG_FILE}", allowEmptyArchive: true
-        }
-
-        failure {
-            echo 'Pipeline failed. Cleaning up Docker containers and images...'
+            echo 'Cleaning up Docker containers and images...'
             script {
                 // Stop and remove containers created by Docker Compose
                 sh '''
@@ -87,9 +82,13 @@ pipeline {
             }
         }
 
+        failure {
+            echo 'Pipeline failed.'
+        }
+
         success {
             echo 'Deployment completed successfully!'
         }
     }
-  }
 }
+
