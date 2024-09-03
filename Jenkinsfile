@@ -77,7 +77,6 @@ pipeline {
     }
 
     post {
-
         failure {
             echo 'Pipeline failed.'
             echo 'Cleaning up Docker containers and images...'
@@ -87,6 +86,7 @@ pipeline {
                 docker-compose down || true
                 docker system prune -af || true
                 '''
+            }
         }
 
         success {
