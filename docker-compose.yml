@@ -15,7 +15,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "8081:80"
     environment:
       DB_HOST: ${DB_HOST} # This should be the RDS endpoint
       DB_USER: ${DB_USER}
