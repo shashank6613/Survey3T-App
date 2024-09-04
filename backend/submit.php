@@ -51,7 +51,7 @@ try {
         $stmt->bindParam(':language', $language);
 	$stmt->bindParam(':pin', $pin);
 	$stmt->execute();
-										           echo "Data saved successfully.";						}
+ echo "Data saved successfully.";						}
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
