@@ -31,6 +31,20 @@ try {
     $pdo->exec($createTableSQL);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	    // Debugging: Print the received POST data
+	    echo "<pre>";
+	    var_dump($_POST);
+	    echo "</pre>";
+	    // Retrieve form data
+	    $name = $_POST['name'];
+	    $age = $_POST['age'];
+	    $mobile = $_POST['mobile'];
+	    $nationality = $_POST['nationality'];
+	    $language = $_POST['language'];
+	    $pin = $_POST['pin'];
+
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$name = $_POST['name'];
 	$age = $_POST['age'];
 	$mobile = $_POST['mobile'];
