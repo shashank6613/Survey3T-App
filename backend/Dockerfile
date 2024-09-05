@@ -1,21 +1,12 @@
-#Dockerfile for Backend
-FROM php:7.4-fpm
+# Use an official PHP image with Apache
+FROM php:8.1-apache
 
-RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libzip-dev \
-    libonig-dev \
-    libcurl4-openssl-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip mysqli pdo pdo_mysql curl
+# Install mysqli extension
+RUN docker-php-ext-install mysqli
 
-WORKDIR /var/www/html
+# Copy the PHP files into the Apache server's root directory
+COPY . /var/www/html/
 
-COPY . /var/www/html
-
-EXPOSE 80
-
-CMD ["php-fpm"]
+# Expose port 9000
+EXPOSE 9000
 
