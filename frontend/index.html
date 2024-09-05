@@ -1,122 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Information Form</title>
-<style>
-    body {
-	  font-family: Arial, sans-serif;
-	  background: url('https://plus.unsplash.com/premium_photo-1661730269734-0a0732685c7a?q=80&w=1653&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
-	  background-size: cover;
-	  margin: 0;
-	  padding: 0;
-	  color: #333;
-    }
-    .container {
-        display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	background: transparent;
-	border-radius: 10px;
-	padding: 20px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-     h1 {
-        text-align: center;
-	color: #444;
-    }
-     form {
-	max-width: 500px;
-	margin: 0 auto;
-    }
-     label {
-	display: block;
-	margin: 10px 0 5px;
-	font-weight: bold;
-	color: black;
-    }
-     input[type="text"],
-     input[type="number"],
-     input[type="tel"] {
-	width: calc(100% - 22px);
-	padding: 10px;
-	margin: 5px 0 10px;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	box-sizing: border-box;
-     }
-      input[type="submit"] {
-	background-color: #4CAF50;
-	color: white;
-	border: none;
-	padding: 15px 20px;
-        text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	border-radius: 5px;
-	cursor: pointer;
-	width: 100%;
-	box-sizing: border-box;
-     }
-      input[type="submit"]:hover {
-	background-color: #45a049;
-     }
-      .message {
-	margin-top: 20px;
-        font-size: 1.2em;
-	color: green;
-     }
-      .message.error {
-	color: red;
-     }
-</style>
-</head>
-<body>
-<div class="container">
-<div>
-<h1>User Information Form</h1>
-<form id="userForm">
-<label for="name">Name:</label>
-<input type="text" id="name" name="name" required>
-<label for="age">Age:</label>
-<input type="number" id="age" name="age" required>
-<label for="mobile">Mobile Number:</label>
-<input type="tel" id="mobile" name="mobile" required>
-<label for="nationality">Nationality:</label>
-<input type="text" id="nationality" name="nationality" required>
-<label for="language">Language:</label>																	<input type="text" id="language" name="language" required>
-<label for="pin">PIN:</label>
-<input type="text" id="pin" name="pin" required>
-<input type="submit" value="Submit">
-<input type="reset" value="Reset">
-<div id="message" class="message"></div>
-</form>
-</div>
-</div>
-<script>
-    document.getElementById('userForm').addEventListener('submit', function(event) {
-	event.preventDefault(); // Prevent the default form submission
-        const formData = new FormData(this); // Create FormData object from form
-
-	fetch('"http://backend:80/submit.php"', { // URL to send the form data
-	method: 'POST',
-        body: formData // Send form data in the body of the request
-   })
-   .then(response => response.text()) // Convert response to text
-   .then(result => {
-        document.getElementById('message').innerText = 'Data added successfully!';
-        document.getElementById('message').classList.remove('error');
-	this.reset(); // Optionally reset the form
-   })
-   .catch(error => {
-	document.getElementById('message').innerText = 'An error occurred: ' + error.message;
-	document.getElementById('message').classList.add('error');
-   });
-});
-</script>
-</body>
+	<head>
+		    <meta charset="UTF-8">
+		        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+			    <title>Data Input Form</title>
+	</head>
+	<body>
+		    <h1>Submit Your Data</h1>
+		        <form action="http://backend:80/index.php" method="post">
+				        <label for="name">Name:</label>
+					        <input type="text" id="name" name="name" required>
+						        <br><br>
+							        <label for="email">Email:</label>
+								        <input type="email" id="email" name="email" required>
+									        <br><br>
+										        <input type="submit" value="Submit">
+											    </form>
+	</body>
 </html>
-
