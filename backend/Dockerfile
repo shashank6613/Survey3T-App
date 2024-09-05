@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /var/www/html
 
 COPY . /var/www/html
-#COPY db_config.php /var/www/html/db_config.php
 
 EXPOSE 80
 
