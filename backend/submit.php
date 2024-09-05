@@ -1,30 +1,20 @@
 <?php
-$servername = getenv('DB_HOST'); 
-$username = getenv('DB_USER');   
-$password = getenv('DB_PASSWORD'); 
-$dbname = 'survey';             
 
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'connection.php';
 
 
 $tableCreationSql = "CREATE TABLE IF NOT EXISTS user_data (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    age INT NOT NULL,
-    mobile VARCHAR(20) NOT NULL,
-    nationality VARCHAR(100) NOT NULL,
-    language VARCHAR(50) NOT NULL,
-    pin VARCHAR(10) NOT NULL
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(255) NOT NULL,
+	age INT NOT NULL,
+        mobile VARCHAR(20) NOT NULL,
+	nationality VARCHAR(100) NOT NULL,
+	language VARCHAR(50) NOT NULL,
+	pin VARCHAR(10) NOT NULL
 )";
 
 if ($conn->query($tableCreationSql) !== TRUE) {
-    die("Error creating table: " . $conn->error);
+	    die("Error creating table: " . $conn->error);
 }
 
 
@@ -41,13 +31,12 @@ $pin = htmlspecialchars($_POST['pin']);
 
 
 if ($stmt->execute()) {
-    echo "Data added successfully!";
+	    echo "Data added successfully!";
 } else {
-    echo "Error: " . $stmt->error;
+	    echo "Error: " . $stmt->error;
 }
 
 
 $stmt->close();
 $conn->close();
 ?>
-
