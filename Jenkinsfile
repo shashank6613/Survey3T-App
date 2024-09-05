@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker images..."
-                    dir('Tire-survey3T') {
+                    dir('Survey3T-App') {
                         sh 'docker-compose build'
                     }
                 }
@@ -49,7 +49,7 @@ pipeline {
                 script {
                     echo "Pushing Docker images..."
                     docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
-                        dir('Tire-survey3T') {
+                        dir('Survey3T-App') {
                             sh 'docker-compose push'
                         }
                     }
@@ -67,7 +67,7 @@ pipeline {
                         "DB_PASSWORD=${DB_PASSWORD}",
                         "DB_NAME=${DB_NAME}"
                     ]) {
-                        dir('Tire-survey3T') {
+                        dir('Survey3T-App') {
                             sh 'docker-compose up -d'
                         }
                     }
