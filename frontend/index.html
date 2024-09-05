@@ -101,7 +101,7 @@
 	event.preventDefault(); // Prevent the default form submission
         const formData = new FormData(this); // Create FormData object from form
 
-	fetch('http://backend:80/submit.php', { // URL to send the form data
+	fetch('"http://backend/submit.php"', { // URL to send the form data
 	method: 'POST',
         body: formData // Send form data in the body of the request
    })
