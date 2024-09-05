@@ -1,73 +1,53 @@
 <?php
-header("Access-Control-Allow-Origin: *"); // Adjust as needed
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Headers: Content-Type");
-
-$dbHost = getenv('DB_HOST');
-$dbName = 'survey';
-$dbUser = getenv('DB_USER');
-$dbPassword = getenv('DB_PASSWORD');
+$servername = getenv('DB_HOST'); 
+$username = getenv('DB_USER');   
+$password = getenv('DB_PASSWORD'); 
+$dbname = 'survey';             
 
 
-if (!$dbHost || !$dbUser || !$dbPassword) {
-	    die("Database environment variables are not set.");
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-try {
-     $pdo = new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser, $dbPassword);
-     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-   $createTableSQL = "
-    CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(100),
-        age INT,
-        mobile VARCHAR(20),
-        nationality VARCHAR(100),
-        language VARCHAR(50),
-        pin VARCHAR(10)
-    );
-    ";
-    $pdo->exec($createTableSQL);
+$tableCreationSql = "CREATE TABLE IF NOT EXISTS user_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    age INT NOT NULL,
+    mobile VARCHAR(20) NOT NULL,
+    nationality VARCHAR(100) NOT NULL,
+    language VARCHAR(50) NOT NULL,
+    pin VARCHAR(10) NOT NULL
+)";
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	    // Debugging: Print the received POST data
-	    echo "<pre>";
-	    var_dump($_POST);
-	    echo "</pre>";
-	    // Retrieve form data
-	    $name = $_POST['name'];
-	    $age = $_POST['age'];
-	    $mobile = $_POST['mobile'];
-	    $nationality = $_POST['nationality'];
-	    $language = $_POST['language'];
-	    $pin = $_POST['pin'];
-
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$name = $_POST['name'];
-	$age = $_POST['age'];
-	$mobile = $_POST['mobile'];
-	$nationality = $_POST['nationality'];
-	$language = $_POST['language'];
-	$pin = $_POST['pin'];
-
-	$insertSQL = "
-        INSERT INTO users (name, age, mobile, nationality, language, pin) 
-        VALUES (:name, :age, :mobile, :nationality, :language, :pin)
-        ";
-
-	$stmt = $pdo->prepare($insertSQL);
-	$stmt->bindParam(':name', $name);
-	$stmt->bindParam(':age', $age);
-	$stmt->bindParam(':mobile', $mobile);
-	$stmt->bindParam(':nationality', $nationality);
-        $stmt->bindParam(':language', $language);
-	$stmt->bindParam(':pin', $pin);
-	$stmt->execute();
- echo "Data saved successfully.";						}
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+if ($conn->query($tableCreationSql) !== TRUE) {
+    die("Error creating table: " . $conn->error);
 }
+
+
+$stmt = $conn->prepare("INSERT INTO user_data (name, age, mobile, nationality, language, pin) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("sissss", $name, $age, $mobile, $nationality, $language, $pin);
+
+
+$name = htmlspecialchars($_POST['name']);
+$age = (int) $_POST['age'];
+$mobile = htmlspecialchars($_POST['mobile']);
+$nationality = htmlspecialchars($_POST['nationality']);
+$language = htmlspecialchars($_POST['language']);
+$pin = htmlspecialchars($_POST['pin']);
+
+
+if ($stmt->execute()) {
+    echo "Data added successfully!";
+} else {
+    echo "Error: " . $stmt->error;
+}
+
+
+$stmt->close();
+$conn->close();
 ?>
 
