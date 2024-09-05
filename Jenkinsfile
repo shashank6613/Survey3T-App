@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     echo "Checking out code from Git..."
-                    sh 'git clone https://github.com/shashank6613/Tire-survey3T.git'
+                    sh 'git clone https://github.com/shashank6613/Survey3T-App.git'
                 }
             }
         }
