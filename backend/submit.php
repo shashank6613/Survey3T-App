@@ -4,12 +4,12 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
 $dbHost = getenv('DB_HOST');
-$dbName = getenv('DB_NAME');
+$dbName = 'survey';
 $dbUser = getenv('DB_USER');
 $dbPassword = getenv('DB_PASSWORD');
 
 
-if (!$dbHost || !$dbName || !$dbUser || !$dbPassword) {
+if (!$dbHost || !$dbUser || !$dbPassword) {
 	    die("Database environment variables are not set.");
 }
 

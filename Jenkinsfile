@@ -9,7 +9,7 @@ pipeline {
         DB_HOST = credentials('db-host')
         DB_USER = credentials('db-user')
         DB_PASSWORD = credentials('db-pass')
-        DB_NAME = credentials('db-name')
+        DB_NAME = 'survey'
         GIT_CREDENTIALS_ID = 'git-creds'
         DOCKER_CREDENTIALS_ID = 'dock-creds'
     }
