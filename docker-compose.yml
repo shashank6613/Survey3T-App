@@ -1,31 +1,27 @@
-version: '3.8'
+version: '3'
 
 services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
     ports:
       - "80:80"
-    depends_on:
-      - backend
     networks:
-        - app-network    
+      - app-network
 
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
     ports:
-      - "8081:9000"
+      - "8081:8081"
+    networks: 
+      - app-network
     environment:
-      DB_HOST: ${DB_HOST} # This should be the RDS endpoint
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-    networks:
-        - app-network    
-
+      - DB_HOST = "$(DB_HOST)"
+      - DB_USER = "admin"
+      - DB_PASSWORD = "$(DB_PASSWORD)"
+      - DB_NAME = "survey"
 networks:
   app-network:
     driver: bridge
+

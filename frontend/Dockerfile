@@ -1,12 +1,8 @@
-# Dockerfile for Frontend
-# Use Nginx to serve static content
+# Use the official Nginx image.
 FROM nginx:alpine
 
-# Copy static content into the Nginx image
-COPY index.html /usr/share/nginx/html
+# Copy the static website files to Nginx's html directory.
+COPY index.html /usr/share/nginx/html/
 
-# Expose port 80
+# Expose port 80 for the container
 EXPOSE 80
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]

@@ -7,7 +7,7 @@ pipeline {
         BACKEND_IMAGE = 'shashank9928/backend:latest'
         AWS_REGION = 'us-west-2'
         DB_HOST = credentials('db-host')
-        DB_USER = credentials('db-user')
+        DB_USER = 'admin'
         DB_PASSWORD = credentials('db-pass')
         DB_NAME = 'survey'
         GIT_CREDENTIALS_ID = 'git-creds'
@@ -32,7 +32,17 @@ pipeline {
                 }
             }
         }
-
+        
+        stage('Generate package.json') {
+            steps {
+                script {
+                    // Run the script to generate package.json
+                    sh 'chmod +x generate-package-json.sh'
+                    sh './generate-package-json.sh'
+                }
+            }
+        }
+     
         stage('Build Docker Images') {
             steps {
                 script {
@@ -94,4 +104,3 @@ pipeline {
         }
     }
 }
-

@@ -1,20 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		    <meta charset="UTF-8">
-		        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-			    <title>Data Input Form</title>
-	</head>
-	<body>
-		    <h1>Submit Your Data</h1>
-		        <form action="/index.php" method="post">
-				        <label for="name">Name:</label>
-					        <input type="text" id="name" name="name" required>
-						        <br><br>
-							        <label for="email">Email:</label>
-								        <input type="email" id="email" name="email" required>
-									        <br><br>
-										        <input type="submit" value="Submit">
-											    </form>
-	</body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Information Form</title>
+<style>
+    body {
+	  font-family: Arial, sans-serif;
+          background: url('https://as1.ftcdn.net/v2/jpg/06/23/00/58/1000_F_623005805_Q1czIHfEiU7HuZD6RMsX5GtcnrH3XuL7.jpg') no-repeat center center fixed;
+	  background-size: cover;
+	margin: 0;
+	padding: 0;
+	color: #333;
+    }
+     .container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+        background: transparent; /* Fully transparent background */
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+     h1 {
+	text-align: center;
+	color: #444;
+    }
+     form {
+	max-width: 500px;
+	margin: 0 auto;
+     }
+      label {
+	display: block;
+	margin: 10px 0 5px;
+	font-weight: bold;
+     }
+      input[type="text"],
+      input[type="number"],
+      input[type="tel"] {
+	width: calc(100% - 22px);
+	padding: 10px;
+	margin: 5px 0 10px;
+	border: 1px solid #ddd;
+        border-radius: 5px;
+	box-sizing: border-box;
+     }
+      input[type="submit"],
+      input[type="reset"] {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	padding: 15px 20px;
+	text-align: center;
+	text-decoration: none;
+        display: inline-block;
+	font-size: 16px;
+	border-radius: 5px;
+        cursor: pointer;
+	width: calc(50% - 12px); /* Adjusted for spacing between buttons */
+	box-sizing: border-box;
+	margin-right: 12px; /* Spacing between buttons */
+     }
+      input[type="submit"]:hover,
+      input[type="reset"]:hover {
+	background-color: #45a049;
+     }
+      input[type="reset"] {
+	background-color: #f44336; /* Different color for reset button */
+     }
+      input[type="reset"]:hover {
+	background-color: #e53935; /* Darker color on hover */
+     }
+</style>
+</head>
+<body>
+<div class="container">
+<div>
+<h1>User Information Form</h1>
+<form id="userForm" action="http://backend:8081/submit" method="POST">
+	<label for="name">Name:</label>
+	<input type="text" id="name" name="name" required>
+	<label for="age">Age:</label>
+	<input type="number" id="age" name="age" required>
+	<label for="mobile">Mobile Number:</label>
+	<input type="tel" id="mobile" name="mobile" required>
+	<label for="nationality">Nationality:</label>
+	<input type="text" id="nationality" name="nationality" required>
+	<label for="language">Language:</label>
+	<input type="text" id="language" name="language" required>
+	<label for="pin">PIN:</label>
+	<input type="text" id="pin" name="pin" required>
+	<input type="submit" value="Submit">
+	<input type="reset" value="Reset">
+</form>
+</div>
+</div>
+<script>
+document.getElementById('userForm').addEventListener('submit', function(event) {
+	event.preventDefault(); // Prevent the form from submitting the traditional way
+	const formData = new FormData(this);
+        fetch('http://backend:8081/submit', { // Corrected URL
+		method: 'POST',
+		body: formData
+	})
+	.then(response => response.text())
+	.then(result => {
+document.getElementById('message').innerText = 'Data added successfully!';
+        this.reset();
+	})
+	.catch(error => {
+document.getElementById('message').innerText = 'An error occurred: ' + error.message;
+	});
+});
+</script>
+</body>
 </html>
