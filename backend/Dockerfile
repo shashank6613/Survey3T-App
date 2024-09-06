@@ -1,4 +1,4 @@
-e the official Node.js image.
+#the official Node.js image.
 FROM node:16
 
 # Create and change to the app directory.
