@@ -33,16 +33,6 @@ pipeline {
             }
         }
         
-        stage('Generate package.json') {
-            steps {
-                script {
-                    // Run the script to generate package.json
-                    sh 'chmod +x generate-package-json.sh'
-                    sh './generate-package-json.sh'
-                }
-            }
-        }
-     
         stage('Build Docker Images') {
             steps {
                 script {
