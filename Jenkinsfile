@@ -7,9 +7,9 @@ pipeline {
         BACKEND_IMAGE = 'shashank9928/backend:latest'
         AWS_REGION = 'us-west-2'
         DB_HOST = credentials('db-host')
-        DB_USER = 'admin'
+        DB_USER = credentials('db-user')
         DB_PASSWORD = credentials('db-pass')
-        DB_NAME = 'survey'
+        DB_NAME = credentials('db-name')
         GIT_CREDENTIALS_ID = 'git-creds'
         DOCKER_CREDENTIALS_ID = 'dock-creds'
     }

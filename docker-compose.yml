@@ -16,10 +16,10 @@ services:
     networks: 
       - app-network
     environment:
-      - DB_HOST = "$(DB_HOST)"
-      - DB_USER = "admin"
-      - DB_PASSWORD = "$(DB_PASSWORD)"
-      - DB_NAME = "survey"
+      - DB_HOST=$(DB_HOST)
+      - DB_USER=$(DB_USER)
+      - DB_PASSWORD=$(DB_PASSWORD)
+      - DB_NAME=$(DB_NAME)
 networks:
   app-network:
     driver: bridge

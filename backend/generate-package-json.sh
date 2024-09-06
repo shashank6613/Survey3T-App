@@ -1,24 +1,21 @@
 #!/bin/bash
 
-# Set default values for package.json fields
-PACKAGE_NAME=${1:-"my-app"}
-PACKAGE_VERSION=${2:-"1.0.0"}
-PACKAGE_DESCRIPTION=${3:-"My Node.js App"}
-PACKAGE_ENTRY_POINT=${4:-"app.js"}
-
-# Create package.json with default values
+# Define the contents of the package.json
 cat <<EOF > package.json
 {
-  "name": "$PACKAGE_NAME",
-  "version": "$PACKAGE_VERSION",
-  "description": "$PACKAGE_DESCRIPTION",
-  "main": "$PACKAGE_ENTRY_POINT",
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "A simple Node.js app",
+  "main": "index.js",
   "scripts": {
-    "start": "node $PACKAGE_ENTRY_POINT"
+    "start": "node index.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.3.3"
+  },
+  "author": "",
+  "license": "ISC"
 }
 EOF
-
-echo "package.json created successfully."
 

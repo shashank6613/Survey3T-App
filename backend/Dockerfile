@@ -17,10 +17,19 @@ RUN ./generate-package-json.sh
 COPY package*.json ./
 
 # Install production dependencies.
-RUN npm install --only=production
+RUN npm install -y
 
 # Copy the local code to the container image.
 COPY . .
+
+# Use build-time arguments
+ARG DB_HOST
+ARG DB_PASSWORD
+
+# Set environment variables for runtime
+ENV DB_HOST=${DB_HOST}
+ENV DB_PASSWORD=${DB_PASSWORD}
+
 
 # Expose port 8081 for the container
 EXPOSE 8081
