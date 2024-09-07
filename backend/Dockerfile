@@ -18,6 +18,7 @@ COPY package*.json ./
 
 # Install production dependencies.
 RUN npm install -y
+RUN npm install cors -y
 
 # Copy the local code to the container image.
 COPY . .
