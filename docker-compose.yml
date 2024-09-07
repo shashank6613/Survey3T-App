@@ -3,6 +3,7 @@ services:
   frontend:
     build:
       context: ./frontend
+    image: shashank9928/frontend:latest    
     ports:
       - "80:80"
     networks:
@@ -11,6 +12,7 @@ services:
   backend:
     build:
       context: ./backend
+    image: shashank9928/backend:latest    
     ports:
       - "8081:8081"
     networks: 
