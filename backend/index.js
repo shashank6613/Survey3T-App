@@ -41,8 +41,7 @@ const createTableQuery = `
 		            process.exit(1);
 		          }
 	      console.log('Table created or already exists');
-	    });
-});
+  });
 
 
 
