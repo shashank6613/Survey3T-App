@@ -22,17 +22,11 @@ RUN npm install -y
 # Copy the local code to the container image.
 COPY . .
 
-# Use build-time arguments
-ARG DB_HOST
-ARG DB_PASSWORD
-ARG DB_USER
-ARG DB_NAME
-
 # Set environment variables for runtime
-ENV DB_HOST=${DB_HOST}
-ENV DB_PASSWORD=${DB_PASSWORD}
-ENV DB_USER=${DB_USER}
-ENV DB_NAME=${DB_NAME}
+ENV DB_HOST=newdb.clushmnnhufs.us-west-2.rds.amazonaws.com
+ENV DB_PASSWORD=admin1234
+ENV DB_USER=admin
+ENV DB_NAME=survey
 
 # Expose port 8081 for the container
 EXPOSE 8081
