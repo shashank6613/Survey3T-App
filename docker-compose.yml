@@ -16,10 +16,10 @@ services:
     networks: 
       - app-network
     environment:
-      - DB_HOST=$(DB_HOST)
-      - DB_USER=$(DB_USER)
-      - DB_PASSWORD=$(DB_PASSWORD)
-      - DB_NAME=$(DB_NAME)
+      - DB_HOST=newdb.clushmnnhufs.us-west-2.rds.amazonaws.com
+      - DB_USER=admin
+      - DB_PASSWORD=admin1234
+      - DB_NAME=survey
 networks:
   app-network:
     driver: bridge
